@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
@@ -27,13 +29,18 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.comp319_assignment4.PhonebookTopAppBar
 import com.example.comp319_assignment4.R
 import com.example.comp319_assignment4.data.People
@@ -108,7 +115,7 @@ private fun HomeBody(
                 style = MaterialTheme.typography.titleLarge
             )
         } else {
-            InventoryList(
+            PeopleList(
                 peopleList = peopleList,
                 onItemClick = { onItemClick(it.id) },
                 modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small))
@@ -118,7 +125,7 @@ private fun HomeBody(
 }
 
 @Composable
-private fun InventoryList(
+private fun PeopleList(
     peopleList: List<People>, onItemClick: (People) -> Unit, modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier) {
@@ -145,6 +152,19 @@ private fun PeopleItem(
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data("https://api.multiavatar.com/Binx ${people.name}${people.surname}.png")
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = "Avatar",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(50.dp, 50.dp) // Set the desired width and height
+                        .clip(CircleShape)
+                )
+                Spacer(Modifier.weight(1f))
+
                 Text(
                     text = people.name + " " +people.surname,
                     style = MaterialTheme.typography.titleMedium,

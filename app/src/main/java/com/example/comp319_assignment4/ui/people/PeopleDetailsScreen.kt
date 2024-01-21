@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -32,6 +33,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -41,6 +43,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.compose.rememberImagePainter
@@ -91,7 +94,7 @@ fun PeopleDetailsScreen(
             }
         }, modifier = modifier
     ) { innerPadding ->
-        ItemDetailsBody(
+        PeopleDetailsBody(
             itemDetailsUiState = uiState.value,
             onDelete = {
                 // Note: If the user rotates the screen very fast, the operation may get cancelled
@@ -111,7 +114,7 @@ fun PeopleDetailsScreen(
 }
 
 @Composable
-private fun ItemDetailsBody(
+private fun PeopleDetailsBody(
     itemDetailsUiState: PeopleDetailsUiState,
     onDelete: () -> Unit,
     modifier: Modifier = Modifier
@@ -162,7 +165,11 @@ fun PeopleDetails(
                 .build(),
             contentDescription = "Avatar",
             contentScale = ContentScale.Crop,
-            modifier = Modifier.clip(CircleShape)
+            modifier = Modifier
+                    .size(100.dp, 100.dp) // Set the desired width and height
+            .clip(CircleShape)
+                .align(Alignment.End) // Align to the right
+
         )
         Column(
             modifier = Modifier
@@ -253,7 +260,7 @@ private fun DeleteConfirmationDialog(
 @Composable
 fun PeopleDetailsScreenPreview() {
     Comp319Assignment4Theme {
-        ItemDetailsBody(PeopleDetailsUiState(
+        PeopleDetailsBody(PeopleDetailsUiState(
             peopleDetails = PeopleDetails(1, "Pen", "$100", "10")
         ), onDelete = {})
     }
