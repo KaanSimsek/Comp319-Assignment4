@@ -3,16 +3,17 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id ("kotlin-kapt")
 }
 
 android {
     namespace = "com.example.comp319_assignment4"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.comp319_assignment4"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -42,7 +43,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.7"
+        kotlinCompilerExtensionVersion = "1.4.3"
     }
     packaging {
         resources {
@@ -67,6 +68,9 @@ dependencies {
     implementation("androidx.room:room-runtime:${rootProject.extra["room_version"]}")
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.room:room-ktx:${rootProject.extra["room_version"]}")
+
+    kapt ("androidx.room:room-compiler:2.6.1") // Replace with the latest version
+
 
     // Testing
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
