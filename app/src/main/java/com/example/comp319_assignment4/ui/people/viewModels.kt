@@ -103,7 +103,7 @@ class PeopleEntryViewModel(private val peopleRepository: PeopleRepository) : Vie
 
     private fun validateInput(uiState: PeopleDetails = peopleUiState.peopleDetails): Boolean {
         return with(uiState) {
-            name.isNotBlank() && surname.isNotBlank() && phoneNumber.isNotBlank() && email!!.isNotBlank()
+            name.isNotBlank() && surname.isNotBlank() && phoneNumber.isNotBlank()
         }
     }
 }

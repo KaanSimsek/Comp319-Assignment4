@@ -85,7 +85,7 @@ fun HomeScreen(
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.item_entry_title)
+                    contentDescription = "Add contact"
                 )
             }
         },
@@ -110,7 +110,7 @@ private fun HomeBody(
     ) {
         if (peopleList.isEmpty()) {
             Text(
-                text = stringResource(R.string.no_item_description),
+                text = "No contact",
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleLarge
             )

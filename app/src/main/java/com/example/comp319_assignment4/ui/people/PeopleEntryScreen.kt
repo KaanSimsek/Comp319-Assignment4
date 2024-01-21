@@ -32,8 +32,9 @@ import java.util.Currency
 import java.util.Locale
 
 object PeopleEntryDestination : NavigationDestination {
-    override val route = "item_entry"
-    override val titleRes = R.string.item_entry_title
+    override val route = "contact_entry"
+    override val titleRes: Int
+        get() = TODO("Not yet implemented")
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,7 +49,7 @@ fun PeopleEntryScreen(
     Scaffold(
         topBar = {
             PhonebookTopAppBar(
-                title = stringResource(PeopleEntryDestination.titleRes),
+                title = "Contact",
                 canNavigateBack = canNavigateBack,
                 navigateUp = onNavigateUp
             )
@@ -113,7 +114,7 @@ fun PeopleInputForm(
         OutlinedTextField(
             value = peopleDetails.name,
             onValueChange = { onValueChange(peopleDetails.copy(name = it)) },
-            label = { Text(stringResource(R.string.people_name)) },
+            label = { Text(stringResource(R.string.people_name)+"*") },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
                 unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -127,7 +128,7 @@ fun PeopleInputForm(
             value = peopleDetails.surname,
             onValueChange = { onValueChange(peopleDetails.copy(surname = it)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text(stringResource(R.string.people_surname)) },
+            label = { Text(stringResource(R.string.people_surname)+"*") },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
                 unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -141,7 +142,7 @@ fun PeopleInputForm(
             value = peopleDetails.phoneNumber,
             onValueChange = { onValueChange(peopleDetails.copy(phoneNumber = it)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            label = { Text(stringResource(R.string.phone_number)) },
+            label = { Text(stringResource(R.string.phone_number)+"*") },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
                 unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,

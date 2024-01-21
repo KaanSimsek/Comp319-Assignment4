@@ -57,8 +57,8 @@ import com.example.comp319_assignment4.ui.theme.Comp319Assignment4Theme
 import kotlinx.coroutines.launch
 
 object PeopleDetailsDestination : NavigationDestination {
-    override val route = "item_details"
-    override val titleRes = R.string.item_detail_title
+    override val route = "contact_details"
+    override val titleRes = R.string.contact_detail_title
     const val itemIdArg = "itemId"
     val routeWithArgs = "$route/{$itemIdArg}"
 }
