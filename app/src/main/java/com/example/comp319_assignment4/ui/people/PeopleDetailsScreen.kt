@@ -1,6 +1,7 @@
 package com.example.comp319_assignment4.ui.people
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
@@ -31,11 +33,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
+import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
 import com.example.comp319_assignment4.PhonebookTopAppBar
 import com.example.comp319_assignment4.R
 import com.example.comp319_assignment4.data.People
@@ -146,6 +155,15 @@ fun PeopleDetails(
             contentColor = MaterialTheme.colorScheme.onPrimaryContainer
         )
     ) {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data("https://api.multiavatar.com/Binx ${people.name}${people.surname}.png")
+                .crossfade(true)
+                .build(),
+            contentDescription = "Avatar",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.clip(CircleShape)
+        )
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -153,7 +171,7 @@ fun PeopleDetails(
             verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
         ) {
             PeopleDetailsRow(
-                labelResID = R.string.item,
+                labelResID = R.string.people_name,
                 itemDetail = people.name,
                 modifier = Modifier.padding(
                     horizontal = dimensionResource(
@@ -163,7 +181,7 @@ fun PeopleDetails(
                 )
             )
             PeopleDetailsRow(
-                labelResID = R.string.quantity_in_stock,
+                labelResID = R.string.people_surname,
                 itemDetail = people.surname,
                 modifier = Modifier.padding(
                     horizontal = dimensionResource(
@@ -173,7 +191,7 @@ fun PeopleDetails(
                 )
             )
             PeopleDetailsRow(
-                labelResID = R.string.price,
+                labelResID = R.string.phone_number,
                 itemDetail = people.phoneNumber,
                 modifier = Modifier.padding(
                     horizontal = dimensionResource(
@@ -182,6 +200,19 @@ fun PeopleDetails(
                     )
                 )
             )
+
+            people.email?.let {
+                PeopleDetailsRow(
+                    labelResID = R.string.Email,
+                    itemDetail = it,
+                    modifier = Modifier.padding(
+                        horizontal = dimensionResource(
+                            id = R.dimen
+                                .padding_medium
+                        )
+                    )
+                )
+            }
         }
 
     }
@@ -220,10 +251,30 @@ private fun DeleteConfirmationDialog(
 
 @Preview(showBackground = true)
 @Composable
-fun ItemDetailsScreenPreview() {
+fun PeopleDetailsScreenPreview() {
     Comp319Assignment4Theme {
         ItemDetailsBody(PeopleDetailsUiState(
             peopleDetails = PeopleDetails(1, "Pen", "$100", "10")
         ), onDelete = {})
     }
+}
+
+@Composable
+fun AvatarImage(
+    name: String,
+    modifier: Modifier = Modifier,
+    contentDescription: String? = null
+) {
+    val imageUrl = "https://api.multiavatar.com/Binx $name.svg"
+    Image(
+        painter = rememberImagePainter(
+            data = imageUrl,
+            builder = {
+                crossfade(true)
+                // Add error handling or placeholders as needed
+            }
+        ),
+        contentDescription = contentDescription,
+        modifier = modifier
+    )
 }

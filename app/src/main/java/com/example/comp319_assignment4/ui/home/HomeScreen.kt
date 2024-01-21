@@ -146,19 +146,15 @@ private fun PeopleItem(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = people.name,
-                    style = MaterialTheme.typography.titleLarge,
+                    text = people.name + " " +people.surname,
+                    style = MaterialTheme.typography.titleMedium,
                 )
                 Spacer(Modifier.weight(1f))
                 Text(
-                    text = people.surname,
+                    text = people.phoneNumber,
                     style = MaterialTheme.typography.titleMedium
                 )
             }
-            Text(
-                text = stringResource(R.string.in_stock, people.phoneNumber),
-                style = MaterialTheme.typography.titleMedium
-            )
         }
     }
 }

@@ -58,10 +58,6 @@ fun PeopleEntryScreen(
             peopleUiState = viewModel.peopleUiState,
             onItemValueChange = viewModel::updateUiState,
             onSaveClick = {
-                // Note: If the user rotates the screen very fast, the operation may get cancelled
-                // and the item may not be saved in the Database. This is because when config
-                // change occurs, the Activity will be recreated and the rememberCoroutineScope will
-                // be cancelled - since the scope is bound to composition.
                 coroutineScope.launch {
                     viewModel.savePeople()
                     navigateBack()
@@ -117,7 +113,7 @@ fun PeopleInputForm(
         OutlinedTextField(
             value = peopleDetails.name,
             onValueChange = { onValueChange(peopleDetails.copy(name = it)) },
-            label = { Text(stringResource(R.string.item_name_req)) },
+            label = { Text(stringResource(R.string.people_name)) },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
                 unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -130,14 +126,13 @@ fun PeopleInputForm(
         OutlinedTextField(
             value = peopleDetails.surname,
             onValueChange = { onValueChange(peopleDetails.copy(surname = it)) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-            label = { Text(stringResource(R.string.item_price_req)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            label = { Text(stringResource(R.string.people_surname)) },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
                 unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
                 disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
             ),
-            leadingIcon = { Text(Currency.getInstance(Locale.getDefault()).symbol) },
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
             singleLine = true
@@ -146,7 +141,7 @@ fun PeopleInputForm(
             value = peopleDetails.phoneNumber,
             onValueChange = { onValueChange(peopleDetails.copy(phoneNumber = it)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            label = { Text(stringResource(R.string.quantity_req)) },
+            label = { Text(stringResource(R.string.phone_number)) },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
                 unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -156,6 +151,22 @@ fun PeopleInputForm(
             enabled = enabled,
             singleLine = true
         )
+
+        peopleDetails.email?.let {
+            OutlinedTextField(
+                value = it,
+                onValueChange = { onValueChange(peopleDetails.copy(email = it)) },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                label = { Text("email") },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                ),
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+        }
         if (enabled) {
             Text(
                 text = stringResource(R.string.required_fields),
